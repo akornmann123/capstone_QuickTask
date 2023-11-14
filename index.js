@@ -49,6 +49,16 @@ app.get('/', async (req, res) => {
     }
 });
 
+app.get('/test', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        res.send('Database connection test successful!');
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Database connection test failed.' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
