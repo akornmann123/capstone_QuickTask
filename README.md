@@ -3,3 +3,4 @@ QuickTask is an efficient and user friendly task management system to help encou
 
 ## INSTALLATION 
 Our group will be utilzing java and javascript to create our project. The dependencies we decided upon are 
+*edit*
