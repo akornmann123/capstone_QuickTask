@@ -17,3 +17,4 @@ Our group will be utilzing java and javascript to create our project. The depend
 - Open a web browser and go to: localhost:3000
 
 [QuickTask.com](https://quicktask-9692.onrender.com)
+akornmann@student.cvtc.edu
