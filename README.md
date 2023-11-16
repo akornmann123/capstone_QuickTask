@@ -14,7 +14,7 @@ Our group will be utilzing java and javascript to create our project. The depend
 - Create a file named .env in the root directory
 - Add the following line to the .env file: DATABASE_URL=postgres://username:password@localhost/database-name
 - In GitBash run the command: npm start
-- Open a web browser and go to: localhost:3000
+- git Open a web browser and go to: localhost:3000
 
 [QuickTask.com](https://quicktask-9692.onrender.com)
 akornmann@student.cvtc.edu
