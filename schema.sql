@@ -19,3 +19,10 @@ CREATE TABLE tasks (
 
 INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Missy', 'Rambo', 'mRambo', 'secure');
 INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Mister', 'Rodger', 'username', 'password');
+
+-- insert tasks
+INSERT INTO tasks (title, description, completed, user_id) VALUES
+('Test Task 1', 'Test Description', false, 1),
+('Test Task 2 Completed', 'Test Description 2 Completed', true, 1),
+('Test Task 3', 'Test Description 3', false, 2),
+('Test Task 4', 'Test Description', false, 3);
