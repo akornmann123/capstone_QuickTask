@@ -25,4 +25,4 @@ INSERT INTO tasks (title, description, completed, user_id) VALUES
 ('Test Task 1', 'Test Description', false, 1),
 ('Test Task 2 Completed', 'Test Description 2 Completed', true, 1),
 ('Test Task 3', 'Test Description 3', false, 2),
-('Test Task 4', 'Test Description', false, 3);
+('Test Task 4', 'Test Description 4', false, 2);
