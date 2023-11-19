@@ -49,6 +49,34 @@ app.get('/', async (req, res) => {
     }
 });
 
+// completed tasks
+app.get('/completed', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        const sql = "SELECT userAccounts.fName, userAccounts.lName, tasks.title, tasks.description FROM userAccounts INNER JOIN tasks ON userAccounts.id = tasks.user_id WHERE completed = true ORDER BY tasks.id ASC;";
+
+        const completedTasks = await client.query(sql);
+        console.log("Completed Tasks:", completedTasks.rows);
+
+        // Create task details array
+        const taskDetails = completedTasks.rows.map(task => {
+            return `<br>Task Title: ${task.title}<br>Task description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>`;
+        });
+
+        // Output completed tasks
+        res.send(`Completed Tasks:<br>${taskDetails.join('')}`)
+
+    } catch (err) {
+        console.error(err);
+        res.set({
+            "Content-Type": "application/json"
+        });
+        res.json({
+            error: err
+        });
+    }
+});
+
 app.get('/test', async (req, res) => {
     try {
         const client = await pool.connect();

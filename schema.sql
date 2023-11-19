@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS tasks;
 DROP TABLE IF EXISTS userAccounts;
 
 CREATE TABLE userAccounts (
@@ -22,7 +23,7 @@ INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Mister', 'R
 
 -- insert tasks
 INSERT INTO tasks (title, description, completed, user_id) VALUES
-('Test Task 1', 'Test Description', false, 1),
-('Test Task 2 Completed', 'Test Description 2 Completed', true, 1),
-('Test Task 3', 'Test Description 3', false, 2),
-('Test Task 4', 'Test Description 4', false, 2);
+('Test Task 1 Incomplete', 'Test Description 1 Incomplete', false, 1),
+('Test Task 1 Completed', 'Test Description 1 Completed', true, 1),
+('Test Task 2 Incomplete', 'Test Description 2 Incomplete', false, 2),
+('Test Task 2 Completed', 'Test Description 2 Completed', true, 2);
