@@ -60,7 +60,7 @@ app.get('/completed', async (req, res) => {
 
         // Create task details array
         const taskDetails = completedTasks.rows.map(task => {
-            return `<br>Task Title: ${task.title}<br>Task description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>`;
+            return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>`;
         });
 
         // Output completed tasks
