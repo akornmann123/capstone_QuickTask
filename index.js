@@ -25,6 +25,15 @@ async function runMigration() {
     }
 }
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+// Allow entry of index.html 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Run schema.sql
 runMigration().catch(err => console.error('Error during migration:', err));
 
