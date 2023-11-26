@@ -15,7 +15,8 @@ CREATE TABLE tasks (
     title TEXT NOT NULL,
     description TEXT,
     completed BOOLEAN NOT NULL DEFAULT false,
-    user_id INTEGER REFERENCES userAccounts(id)
+    user_id INTEGER REFERENCES userAccounts(id),
+    notes TEXT
 );
 
 INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Missy', 'Rambo', 'mRambo', 'secure');
