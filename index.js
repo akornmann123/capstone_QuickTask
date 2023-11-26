@@ -113,6 +113,51 @@ app.get('/test', async (req, res) => {
     }
 });
 
+
+
+
+app.get('/tasks', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        const sql = "SELECT * FROM tasks";
+
+        const taskList = await client.query(sql);
+        console.log("Task List:", taskList.rows);
+
+        // Create task details array
+        const taskListDetails = taskList.rows.map(task => {
+            return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>`;
+        });
+
+        // Output completed tasks
+        res.send(`Task List:<br>${taskListDetails.join('')}`)
+
+    } catch (err) {
+        console.error(err);
+        res.set({
+            "Content-Type": "application/json"
+        });
+        res.json({
+            error: err
+        });
+    }
+});
+
+
+
+
+// TODO
+app.get('/create-task', async (req, res) => {
+    const task = req.body; 
+    try {
+      await pool.query('INSERT INTO tasks (userAccounts.fName, description, due_date, assigned_to, employee_email, notes) VALUES ($1, $2, $3, $4, $5, $6)', [task.fname, task.description, task.due_date, task.assigned_to, task.employee_email, task.notes]);
+      res.status(201).json({ message: 'Task created successfully.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error.' });
+    }
+  });
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
