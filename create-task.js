@@ -1,16 +1,59 @@
-const express = require('express');
-const router = express.Router();
-const pool = require('../db');
+var express = require('express');
+var router = express.Router();
+var database = require('../database');
 
-router.post('/create-task', async (req, res) => {
-  const task = req.body; 
-  try {
-    await pool.query('INSERT INTO tasks (name, description, due_date, assigned_to, employee_email, notes) VALUES ($1, $2, $3, $4, $5, $6)', [task.name, task.description, task.due_date, task.assigned_to, task.employee_email, task.notes]);
-    res.status(201).json({ message: 'Task created successfully.' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
+const { response } = require("express");
+
+router.get("/", function(request, reponse, next){
+
+    var query = "SELECT * FROM create-task ORDER BY id DESC";
+
+    database.query(query, function(error, data){
+
+        if(error)
+        {
+            throw error;
+        }
+        else
+        {
+            response.render('create-task', {title: 'Create Task Node.js', action:'list', createTask:data, message:request.flash('success')});
+        }
+    });
+});
+
+router.get("/add", function(request, response, next){
+
+    response.render("create-task", {title: 'Create Task Data', action:'add'}
+    );
+});
+
+router.post("/add-create-task", function(request, reponse, next){
+
+    var title = request.body.title;
+    var description = request.body.description;
+    var due_date = request.body.due_date;
+    var assigned_to = request.body.assigned_to;
+    var employee_email = request.body.employee_email;
+    var notes = request.body.notes;
+
+    var query = `
+    INSERT INTO create-task
+    (title, description, due_date, assigned_to, employee_email, notes)
+    VALUES ("${title}", "${description}", "${due_date}", "${assigned_to}", "${employee_email}", "${notes}")
+    `;
+
+    database.query(query, function(error, data){
+
+        if(error)
+        {
+            throw error;
+        }
+        else
+        {
+            response.redirect("/create-task");
+        }
+    });
+
 });
 
 module.exports = router;

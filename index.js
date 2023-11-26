@@ -59,7 +59,8 @@ app.get('/', async (req, res) => {
         });
     }
 });
-
+  
+  
 // completed tasks
 app.get('/completed', async (req, res) => {
     try {
@@ -165,8 +166,6 @@ app.get('/tasks', async (req, res) => {
         }
     });
 
-
-// TODO
 app.get('/create-task', async (req, res) => {
     const task = req.body; 
     try {
