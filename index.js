@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
+
 const port = process.env.PORT || 3000;
 
 const pool = new Pool({
@@ -110,7 +111,18 @@ app.get('/tasks', async (req, res) => {
 
         // Create task details array
         const taskListDetails = taskList.rows.map(task => {
-            return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>`;
+            return `
+                <div>
+                    <p>Task Title: ${task.title}</p>
+                    <p>Task Description: ${task.description}</p>
+                    
+                    <form action="/tasks/${task.id}/notes" method="POST">
+                        <label for="taskNotes"Add Notes:</label>
+                        <input type="text" id="taskNotes" name="notes">
+                        <button type="submit">Add Notes</button>
+                    </form>
+                </div>
+                `;
         });
 
         // Output completed tasks
@@ -126,6 +138,30 @@ app.get('/tasks', async (req, res) => {
         });
     }
 });
+    app.use(express.urlencoded({ extended: true }));
+    app.post('/tasks/:id/notes', async (req, res) => {
+        const taskId = req.params.id;
+        const { notes } = req.body;
+
+        try {
+            const client = await pool.connect();
+            const sql = "UPDATE tasks SET notes = $1 WHERE id = $2 RETURNING *";
+
+            // update notes in database
+            const updatedTask = await client.query(sql, [notes, taskId]);
+            client.release();
+
+            res.status(200).json({ message: 'Notes added succesfully.', task: updatedTask.rows[0] });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Internal server error'});
+        }
+    });
+
+
+/* Create task details array TESTING CODE
+const taskListDetails = taskList.rows.map(task => {
+    return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>`;*/
 
 
 

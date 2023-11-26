@@ -23,8 +23,8 @@ INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Missy', 'Ra
 INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Mister', 'Rodger', 'username', 'password');
 
 -- insert tasks
-INSERT INTO tasks (title, description, completed, user_id) VALUES
-('Test Task 1 Incomplete', 'Test Description 1 Incomplete', false, 1),
-('Test Task 1 Completed', 'Test Description 1 Completed', true, 1),
-('Test Task 2 Incomplete', 'Test Description 2 Incomplete', false, 2),
-('Test Task 2 Completed', 'Test Description 2 Completed', true, 2);
+INSERT INTO tasks (title, description, completed, user_id, notes) VALUES
+('Test Task 1 Incomplete', 'Test Description 1 Incomplete', false, 1, 'test note 1'),
+('Test Task 1 Completed', 'Test Description 1 Completed', true, 1, 'test completed 1'),
+('Test Task 2 Incomplete', 'Test Description 2 Incomplete', false, 2, 'test incomplete 2'),
+('Test Task 2 Completed', 'Test Description 2 Completed', true, 2, NULL );
