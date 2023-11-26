@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  if(action == 'add') {
+  <% if(action == 'add') { %>
 
     <h2>Create Task:</h2><br><br>
     <form method="POST" action="/create-task/add-create-task">
@@ -28,7 +28,44 @@
       <input type="submit" name="submit_button" value="Add">
     </form>
 
-  }
+  <% } else { %>
+
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Assigned to</th>
+                <th>Employee Email</th>
+                <th>Notes</th>
+            </tr>
+            <%
+            if(createTask.length > 0)
+            {
+                createTask.forEach(function(data){
+             %>  
+             <tr>
+                <td><%= data.title %></td>
+                <td><%= data.description %></td>
+                <td><%= data.due_date %></td>
+                <td><%= data.employee_email %></td>
+                <td><%= data.notes %></td>
+             </tr>
+             <%
+                });
+            }
+            else
+            {
+            %>
+            <tr>
+                <td colspan="6">No Data Found</td>
+            </tr>
+            <%
+            }
+            %>
+        </table>
+  
+  <% } %>
   
 </body>
 </html>
