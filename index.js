@@ -152,22 +152,20 @@ app.get('/tasks', async (req, res) => {
             const updatedTask = await client.query(sql, [notes, taskId]);
             client.release();
 
-            res.status(200).json({ message: 'Notes added succesfully.', task: updatedTask.rows[0] });
+            // Create task list details array
+            const taskListDetails = updatedTask.rows.map(task => {
+            return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>Task Notes: ${task.notes}`;
+        });
+
+            // Output info plus note
+        res.send(`Task List:<br>${taskListDetails.join('')}`)
+
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: 'Internal server error'});
         }
     });
 
-
-/* Create task details array TESTING CODE
-const taskListDetails = taskList.rows.map(task => {
-    return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>`;*/
-
-
-
-
-// TODO 
 app.get('/create-task', async (req, res) => {
     const task = req.body; 
     try {
