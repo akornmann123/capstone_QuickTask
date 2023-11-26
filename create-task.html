@@ -1,16 +1,29 @@
-const express = require('express');
-const router = express.Router();
-const pool = require('../db');
-
-router.post('/create-task', async (req, res) => {
-  const task = req.body; 
-  try {
-    await pool.query('INSERT INTO tasks (name, description, due_date, assigned_to, employee_email, notes) VALUES ($1, $2, $3, $4, $5, $6)', [task.name, task.description, task.due_date, task.assigned_to, task.employee_email, task.notes]);
-    res.status(201).json({ message: 'Task created successfully.' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
-});
-
-module.exports = router;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Task HTML</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="index.js"></script>
+</head>
+<body>
+  <h2>Create Task:</h2><br><br>
+  <form id="createTaskForm" action="" onsubmit="return submit()">
+    <label for="title">Task Title:</label><br>
+    <input type="text" id="title" name="title"><br>
+    <label for="description">Description:</label><br>
+    <input type="text" id="description" name="description"><br>
+    <label for="due_date">Due Date:</label><br>
+    <input type="date" id="due_date" name="due_date"><br>
+    <label for="assigned_to">Assign To:</label><br>
+    <input type="text" id="assigned_to" name="assigned_to"><br>
+    <label for="employee_email">Employee Email:</label><br>
+    <input type="email" id="employee_email" name="employee_email"><br>
+    <label for="notes">Notes:</label><br>
+    <input type="text" id="notes" name="notes"><br>
+    <button type="submit" onclick= submit()>Submit</button>
+  </form>
+  
+</body>
+</html>
