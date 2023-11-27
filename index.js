@@ -6,6 +6,9 @@ const path = require('path');
 
 const app = express();
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 const port = process.env.PORT || 3000;
 
 const pool = new Pool({
@@ -37,7 +40,7 @@ app.get('/', (req, res) => {
 });
 
 // Run schema.sql
-runMigration().catch(err => console.error('Error during migration:', err));
+// runMigration().catch(err => console.error('Error during migration:', err));
 
 app.get('/', async (req, res) => {
     try {
@@ -105,7 +108,7 @@ app.get('/test', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
-        const sql = "SELECT * FROM tasks";
+        const sql = "SELECT * FROM tasks ORDER BY id ASC";
 
         const taskList = await client.query(sql);
         console.log("Task List:", taskList.rows);
@@ -122,6 +125,9 @@ app.get('/tasks', async (req, res) => {
                         <input type="text" id="taskNotes" name="notes">
                         <button type="submit">Add Notes</button>
                     </form>
+                    <a href="/edit-task/${task.id}">
+                        <button type="button">Edit Task</button>
+                    </a>
                 </div>
                 `;
         });
@@ -176,6 +182,51 @@ app.get('/create-task', async (req, res) => {
       res.status(500).json({ error: 'Internal server error.' });
     }
   });
+
+  // the edit task button found in the task list page
+app.get('/edit-task/:id', async (req, res) => {
+    const taskId = req.params.id;
+    try {
+        const client = await pool.connect();
+        const taskSql = "SELECT tasks.*, userAccounts.fName, userAccounts.lName FROM tasks JOIN userAccounts ON tasks.user_id = userAccounts.id WHERE tasks.id = $1";
+        const userSql = "SELECT id, fName, lName FROM userAccounts";
+
+        const { rows: taskRows} = await client.query(taskSql, [taskId]);
+        const { rows: userRows} = await client.query(userSql);
+  
+      if (taskRows.length === 1) {
+        res.render('edit-task.ejs', { task: taskRows[0], users: userRows });
+      } else {
+        res.status(404).json({ error: 'Task not found.' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error.' });
+    }
+});
+
+// the update task button found in the edit page
+app.post('/update-task/:id', async (req, res) => {
+    console.log(req.body);
+    const taskId = req.params.id;
+    const { title, description, userId, notes, status } = req.body;
+
+    const userIdNumber = parseInt(userId);
+
+    try {
+        const client = await pool.connect();
+        const sql = "UPDATE tasks SET title = $1, description = $2, user_id = $3, notes = $4, status = $5 WHERE id = $6";
+
+        const updatedTask = await client.query(sql, [title, description, userIdNumber, notes, status, taskId]);
+        client.release();
+
+        res.redirect('/tasks');
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
