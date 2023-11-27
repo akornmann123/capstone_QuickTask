@@ -15,7 +15,7 @@ CREATE TABLE tasks (
     title TEXT NOT NULL,
     description TEXT,
     due_date DATE,
-    assigned_to TEXT NOT NULL,
+    assigned_to TEXT,
     employee_email TEXT,
     completed BOOLEAN NOT NULL DEFAULT false,
     user_id INTEGER REFERENCES userAccounts(id),
