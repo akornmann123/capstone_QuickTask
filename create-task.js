@@ -41,7 +41,7 @@ router.post("/add-create-task", function(request, reponse, next){
     var notes = request.body.notes;
 
     var query = `
-    INSERT INTO create-task
+    INSERT INTO tasks
     (title, description, due_date, assigned_to, employee_email, notes)
     VALUES ("${title}", "${description}", "${due_date}", "${assigned_to}", "${employee_email}", "${notes}")
     `;
