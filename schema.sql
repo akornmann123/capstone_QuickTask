@@ -14,6 +14,9 @@ CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT,
+    due_date DATE,
+    assigned_to TEXT NOT NULL,
+    employee_email TEXT,
     completed BOOLEAN NOT NULL DEFAULT false,
     user_id INTEGER REFERENCES userAccounts(id),
     notes TEXT
