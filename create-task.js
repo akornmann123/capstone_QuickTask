@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 var database = require('../database');
 
+const app = express();
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 const { response } = require("express");
 
 router.get("/", function(request, reponse, next){
