@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 });
 
 // Run schema.sql
-// runMigration().catch(err => console.error('Error during migration:', err));
+ runMigration().catch(err => console.error('Error during migration:', err));
 
 app.get('/', async (req, res) => {
     try {
