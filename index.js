@@ -172,16 +172,6 @@ app.get('/tasks', async (req, res) => {
         }
     });
 
-app.get('/create-task', async (req, res) => {
-    const task = req.body; 
-    try {
-      await pool.query('INSERT INTO tasks (userAccounts.fName, description, due_date, assigned_to, employee_email, notes) VALUES ($1, $2, $3, $4, $5, $6)', [task.fname, task.description, task.due_date, task.assigned_to, task.employee_email, task.notes]);
-      res.status(201).json({ message: 'Task created successfully.' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal server error.' });
-    }
-  });
 
   // the edit task button found in the task list page
 app.get('/edit-task/:id', async (req, res) => {
