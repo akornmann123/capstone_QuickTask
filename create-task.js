@@ -14,7 +14,7 @@ app.use(express.json());
 
 
 // Create Tasks
-app.get('/create-task', function(req, res, next) {
+app.get('/', function(req, res, next) {
     res.render('create-task', {title: 'create-task'});
 });
 app.post('/create-task', function(req, res, next) {
