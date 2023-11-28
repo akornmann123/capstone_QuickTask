@@ -64,23 +64,6 @@ app.get('/', async (req, res) => {
 });
 
 
-// Create Tasks
-router.post('/tasks/create', function(req, res, next) {
-
-var title = req.body.title;
-var description = req.body.description;
-var due_date = req.body.due_date;
-var assigned_to = req.body.assigned_to;
-var employee_email = req.body.employee_email;
-var notes = req.body.notes;
-
-var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, employee_email, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${employee_email}', '${notes}')`;
-db.query(sql,function (err, data) {
-if (err) throw err;
-console.log("Task Created");
-});
-//res.redirect('/create/form');
-//});
   
 // completed tasks
 app.get('/completed', async (req, res) => {
