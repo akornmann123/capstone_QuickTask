@@ -64,7 +64,7 @@ app.get('/', async (req, res) => {
 });
 
 // Create Tasks
-app.post('/create-task', function(req, res, next) {
+app.get('/create-task', function(req, res, next) {
     var title = req.body.title;
     var description = req.body.description;
     var due_date = req.body.due_date;
