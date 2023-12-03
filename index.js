@@ -124,7 +124,7 @@ app.get('/accounts', async (req, res) => {
 
         // Create acount details array
         const accountDetails = completedUsers.rows.map(user => {
-            return `<br>First Name: ${user.fname}<br>Last Name: ${user.lname}<br>Account Type: ${user.job} Username: ${user.username}<br> Password: ${user.password} Password Hashed: TODO`;
+            return `<br>First Name: ${user.fname}<br>Last Name: ${user.lname}<br>Account Type: ${user.job}<br> Username: ${user.username}<br> Password: ${user.password}<br> Password Hashed: TODO<br><br>`;
         });
 
         // Output completed accounts
