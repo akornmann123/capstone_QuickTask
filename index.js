@@ -3,6 +3,8 @@ const express = require('express');
 const { Pool } = require('pg');
 const fs = require('fs');
 const path = require('path');
+const ejs = require('ejs');
+
 
 const app = express();
 
@@ -34,6 +36,22 @@ async function runMigration() {
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname)));
+
+// include nav links on all pages
+app.use((req, res, next) => {
+    const navHtml = `
+        <nav>
+            <a href="/tasks">Task List</a>
+            <a href="/view-task.js">View Task</a>
+            <a href="/create-task">Create Task</a>
+            <a href="/accountForm.html">Create Account</a>
+            <a href="/completed">Completed Tasks</a>
+        </nav>`;
+    
+    res.locals.nav = navHtml;
+    next();
+});
+
 
 
 // Allow entry of index.html 
