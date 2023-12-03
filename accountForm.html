@@ -32,11 +32,13 @@
   </head>
   <body>
     <h2>Create Account:</h2><br><br>
-    <form id="accountForm" action="accountForm.html" onsubmit="return submit()">
+    <form id="accountForm" action="/create-account" method="post" onsubmit="return submit()">
       <label for="fname">First Name:</label><br>
       <input type="text" id="fname" name="fname"><br>
       <label for="lname">Last Name:</label><br>
       <input type="text" id="lname" name="lname"><br>
+      <label for="username">User Name:</label><br>
+      <input type="text" id="username" name="username"><br>
       <label for="job">Choose One:</label><br>
         <select name="job" id="job">
           <option value="Manager">Manager</option>
