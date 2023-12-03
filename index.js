@@ -139,6 +139,7 @@ app.get('/tasks', async (req, res) => {
                 <div>
                     <p>Task Title: ${task.title}</p>
                     <p>Task Description: ${task.description}</p>
+                    <p>Assigned To: ${task.fname}, ${task.lname}</p>
                     
                     <form action="/tasks/${task.id}/notes" method="POST">
                         <label for="taskNotes"Add Notes:</label>
