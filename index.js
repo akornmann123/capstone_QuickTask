@@ -62,7 +62,10 @@ app.get('/', async (req, res) => {
         });
     }
 });
+app.get('/create-task', function(req, res) => {
+    
 
+}
 // Create Tasks
 app.post('/create-task', function(req, res, next) {
     var title = req.body.title;
