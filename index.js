@@ -128,7 +128,7 @@ app.get('/test', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
-        const sql = "SELECT * FROM tasks ORDER BY id ASC";
+        const sql = "SELECT * FROM tasks, userAccounts ORDER BY id ASC";
 
         const taskList = await client.query(sql);
         console.log("Task List:", taskList.rows);
@@ -139,7 +139,7 @@ app.get('/tasks', async (req, res) => {
                 <div>
                     <p>Task Title: ${task.title}</p>
                     <p>Task Description: ${task.description}</p>
-                    <p>Assigned To: ${user.fname}, ${user.lname}</p>
+                    <p>Assigned To: ${userAccounts.fname}, ${userAccounts.lname}</p>
                     
                     <form action="/tasks/${task.id}/notes" method="POST">
                         <label for="taskNotes"Add Notes:</label>
