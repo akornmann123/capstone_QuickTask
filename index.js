@@ -31,7 +31,7 @@ async function runMigration() {
 }
 
 // Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname,)));
+app.use(express.static(path.join(__dirname)));
 
 
 // Allow entry of index.html 
@@ -62,26 +62,26 @@ app.get('/', async (req, res) => {
         });
     }
 });
-app.get('/create-task', function(req, res) => {
+// app.get('/create-task', function(req, res) => {
     
 
-}
-// Create Tasks
-app.post('/create-task', function(req, res, next) {
-    var title = req.body.title;
-    var description = req.body.description;
-    var due_date = req.body.due_date;
-    var assigned_to = req.body.assigned_to;
-    var employee_email = req.body.employee_email;
-    var notes = req.body.notes;
+// }
+// // Create Tasks
+// app.post('/create-task', function(req, res, next) {
+//     var title = req.body.title;
+//     var description = req.body.description;
+//     var due_date = req.body.due_date;
+//     var assigned_to = req.body.assigned_to;
+//     var employee_email = req.body.employee_email;
+//     var notes = req.body.notes;
 
-    var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, employee_email, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${employee_email}', '${notes}')`;
-    db.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Task Created");
-        res.redirect('/');
-    });
-});
+//     var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, employee_email, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${employee_email}', '${notes}')`;
+//     db.query(sql, function (err, result) {
+//         if (err) throw err;
+//         console.log("Task Created");
+//         res.redirect('/');
+//     });
+// });
 
   
 // completed tasks
@@ -128,7 +128,7 @@ app.get('/test', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
-        const sql = "SELECT * FROM tasks, userAccounts ORDER BY id ASC";
+        const sql = "SELECT tasks.id, tasks.title, tasks.description, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
 
         const taskList = await client.query(sql);
         console.log("Task List:", taskList.rows);
@@ -139,7 +139,7 @@ app.get('/tasks', async (req, res) => {
                 <div>
                     <p>Task Title: ${task.title}</p>
                     <p>Task Description: ${task.description}</p>
-                    <p>Assigned To: ${userAccounts.fname}, ${userAccounts.lname}</p>
+                    <p>Assigned To: ${task.fname}, ${task.lname}</p>
                     
                     <form action="/tasks/${task.id}/notes" method="POST">
                         <label for="taskNotes"Add Notes:</label>
