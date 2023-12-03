@@ -5,6 +5,7 @@ CREATE TABLE userAccounts (
     id SERIAL PRIMARY KEY,
     fName TEXT NOT NULL,
     lName TEXT NOT NULL,
+    job TEXT NOT NULL,
     username TEXT NOT NULL,
     password TEXT NOT NULL
 );
@@ -23,15 +24,15 @@ CREATE TABLE tasks (
     status TEXT
 );
 
-INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Missy', 'Rambo', 'mRambo', 'secure');
-INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Mister', 'Rodger', 'username', 'password');
-INSERT INTO userAccounts (fName, lName, username, password) VALUES ('John', 'Johnson', 'username', 'password');
-INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Kelly', 'Morrison', 'username', 'password');
-INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Betty', 'Crocker', 'username', 'password');
-INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Mike', 'Wasoski', 'username', 'password');
-INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Billy', 'Jones', 'username', 'password');
-INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Chrisopher', 'Robin', 'username', 'password');
-INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Sally', 'Corrin', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('Missy', 'Rambo', 'Employee', 'mRambo', 'secure');
+INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('Mister', 'Rodger', 'Employee', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('John', 'Johnson', 'Employee', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('Kelly', 'Morrison', 'Employee', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('Betty', 'Crocker', 'Employee', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('Mike', 'Wasoski', 'Employee', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('Billy', 'Jones', 'Employee', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('Chrisopher', 'Robin', 'Employee', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('Sally', 'Corrin', 'Manager', 'username', 'password');
 
 -- insert tasks
 INSERT INTO tasks (title, description, completed, user_id, notes, status) VALUES

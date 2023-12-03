@@ -6,6 +6,8 @@ const path = require('path');
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -62,27 +64,83 @@ app.get('/', async (req, res) => {
         });
     }
 });
-// app.get('/create-task', function(req, res) => {
+app.get('/create-task', (req, res) => {
     
 
-// }
-// // Create Tasks
-// app.post('/create-task', function(req, res, next) {
-//     var title = req.body.title;
-//     var description = req.body.description;
-//     var due_date = req.body.due_date;
-//     var assigned_to = req.body.assigned_to;
-//     var employee_email = req.body.employee_email;
-//     var notes = req.body.notes;
+});
+// Create Tasks
+app.post('/create-task', function(req, res, next) {
+    var title = req.body.title;
+    var description = req.body.description;
+    var due_date = req.body.due_date;
+    var assigned_to = req.body.assigned_to;
+    var employee_email = req.body.employee_email;
+    var notes = req.body.notes;
 
-//     var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, employee_email, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${employee_email}', '${notes}')`;
-//     db.query(sql, function (err, result) {
-//         if (err) throw err;
-//         console.log("Task Created");
-//         res.redirect('/');
-//     });
-// });
+    var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, employee_email, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${employee_email}', '${notes}')`;
+    db.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Task Created");
+        res.redirect('/');
+    });
+});
 
+
+
+// create account
+app.post('/create-account', async (req, res) => {
+    try {
+        // extract form data from req.body
+        const { fname, lname, job, username, password, confirmPassword } = req.body;
+
+        // check if passwords match
+        if (password !== confirmPassword) {
+            return res.status(400).send('Passwords do not match');
+        }
+
+        // insert data into database
+        const client = await pool.connect();
+        const sql = 'INSERT INTO userAccounts (fname, lname, job, username, password) VALUES ($1, $2, $3, $4, $5)';
+        const values = [fname, lname, job, username, password];
+
+        await client.query(sql, values);
+        client.release();
+
+        console.log('Account created successfully');
+        res.redirect('/accounts'); // TODO redirect to account page
+    } catch (error) {
+        console.error('Error creating account:', error);
+        res.status(500).json({ error: 'Internal server error'});
+    }
+});
+
+// view accounts
+app.get('/accounts', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        const sql = "SELECT * from userAccounts";
+
+        const completedUsers = await client.query(sql);
+        console.log("User Accounts", completedUsers.rows);
+
+        // Create acount details array
+        const accountDetails = completedUsers.rows.map(user => {
+            return `<br>First Name: ${user.fname}<br>Last Name: ${user.lname}<br>Account Type: ${user.job}<br> Username: ${user.username}<br> Password: ${user.password}<br> Password Hashed: TODO<br><br>`;
+        });
+
+        // Output completed accounts
+        res.send(`Accounts:<br>${accountDetails.join('')}`)
+
+    } catch (err) {
+        console.error(err);
+        res.set({
+            "Content-Type": "application/json"
+        });
+        res.json({
+            error: err
+        });
+    }
+});
   
 // completed tasks
 app.get('/completed', async (req, res) => {
@@ -128,6 +186,7 @@ app.get('/test', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
+
         const sql = "SELECT tasks.id, tasks.title, tasks.description, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
 
         const taskList = await client.query(sql);
@@ -166,7 +225,7 @@ app.get('/tasks', async (req, res) => {
         });
     }
 });
-    app.use(express.urlencoded({ extended: true }));
+    
     app.post('/tasks/:id/notes', async (req, res) => {
         const taskId = req.params.id;
         const { notes } = req.body;
