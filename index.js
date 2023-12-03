@@ -33,7 +33,7 @@ async function runMigration() {
 }
 
 // Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname,)));
+app.use(express.static(path.join(__dirname)));
 
 
 // Allow entry of index.html 
@@ -84,6 +84,7 @@ app.post('/create-task', function(req, res, next) {
         res.redirect('/');
     });
 });
+
 
 
 // create account
@@ -185,7 +186,8 @@ app.get('/test', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
-        const sql = "SELECT * FROM tasks, userAccounts ORDER BY user_id ASC";
+
+        const sql = "SELECT tasks.id, tasks.title, tasks.description, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
 
         const taskList = await client.query(sql);
         console.log("Task List:", taskList.rows);
@@ -196,7 +198,7 @@ app.get('/tasks', async (req, res) => {
                 <div>
                     <p>Task Title: ${task.title}</p>
                     <p>Task Description: ${task.description}</p>
-                    <p>Assigned To: ${userAccounts.fname}, ${userAccounts.lname}</p>
+                    <p>Assigned To: ${task.fname}, ${task.lname}</p>
                     
                     <form action="/tasks/${task.id}/notes" method="POST">
                         <label for="taskNotes"Add Notes:</label>
