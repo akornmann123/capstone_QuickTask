@@ -62,10 +62,10 @@ app.get('/', async (req, res) => {
         });
     }
 });
-app.get('/create-task', function(req, res) => {
+app.get('/create-task', (req, res) => {
     
 
-}
+});
 // Create Tasks
 app.post('/create-task', function(req, res, next) {
     var title = req.body.title;
@@ -128,7 +128,7 @@ app.get('/test', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
-        const sql = "SELECT * FROM tasks, userAccounts ORDER BY id ASC";
+        const sql = "SELECT * FROM tasks, userAccounts ORDER BY user_id ASC";
 
         const taskList = await client.query(sql);
         console.log("Task List:", taskList.rows);
