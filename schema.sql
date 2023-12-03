@@ -25,6 +25,13 @@ CREATE TABLE tasks (
 
 INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Missy', 'Rambo', 'mRambo', 'secure');
 INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Mister', 'Rodger', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, username, password) VALUES ('John', 'Johnson', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Kelly', 'Morrison', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Betty', 'Crocker', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Mike', 'Wasoski', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Billy', 'Jones', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Chrisopher', 'Robin', 'username', 'password');
+INSERT INTO userAccounts (fName, lName, username, password) VALUES ('Sally', 'Corrin', 'username', 'password');
 
 -- insert tasks
 INSERT INTO tasks (title, description, completed, user_id, notes, status) VALUES
