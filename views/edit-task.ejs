@@ -19,7 +19,7 @@
         <select id="userId" name="userId">
             <% users.forEach(user => { %>
                 <option value="<%= user.id %>" <%= task.user_id === user.id ? 'selected' : '' %>>
-                    <%= userAccounts.fname %> <%= userAccounts.lname %>
+                    <%= user.fname %> <%= user.lname %>
                 </option>
             <% }); %>
         </select>
