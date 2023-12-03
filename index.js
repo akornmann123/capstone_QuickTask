@@ -86,6 +86,15 @@ app.post('/create-task', function(req, res, next) {
 });
 
 
+// require for hashing (Node.js Crypto Module)
+const crypto = require('crypto');
+
+// hash function
+function hashPassword(password) {
+    const hash = crypto.createHash('sha256');
+    hash.update(password);
+    return hash.digest('hex');
+}
 
 // create account
 app.post('/create-account', async (req, res) => {
@@ -98,10 +107,14 @@ app.post('/create-account', async (req, res) => {
             return res.status(400).send('Passwords do not match');
         }
 
+        // Hash password
+        const hashedPassword = hashPassword(password);
+
         // insert data into database
         const client = await pool.connect();
         const sql = 'INSERT INTO userAccounts (fname, lname, job, username, password) VALUES ($1, $2, $3, $4, $5)';
-        const values = [fname, lname, job, username, password];
+        //const values = [fname, lname, job, username, password];
+        const values = [fname, lname, job, username, hashedPassword]; // insert hashedPassword into "password" field
 
         await client.query(sql, values);
         client.release();
@@ -125,7 +138,7 @@ app.get('/accounts', async (req, res) => {
 
         // Create acount details array
         const accountDetails = completedUsers.rows.map(user => {
-            return `<br>First Name: ${user.fname}<br>Last Name: ${user.lname}<br>Account Type: ${user.job}<br> Username: ${user.username}<br> Password: ${user.password}<br> Password Hashed: TODO<br><br>`;
+            return `<br>First Name: ${user.fname}<br>Last Name: ${user.lname}<br>Account Type: ${user.job}<br> Username: ${user.username}<br> Password (hashed): ${user.password}<br><br>`;
         });
 
         // Output completed accounts
