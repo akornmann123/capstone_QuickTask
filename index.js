@@ -105,16 +105,6 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/create-task', async (req, res) => {
-    try {
-        const client = await pool.connect();
-        const sql = "SELECT * FROM tasks";
-        const tasks = await client.query(sql);
-
-        res.render('create-task.ejs', { nav: res.locals.nav, tasks: Tasks });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
-    }
 
 });
 // Create Tasks
