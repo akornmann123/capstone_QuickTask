@@ -36,7 +36,7 @@ INSERT INTO userAccounts (fName, lName, job, username, password) VALUES ('Sally'
 
 -- insert tasks
 INSERT INTO tasks (title, description, completed, due_date, user_id, notes, status) VALUES
-('Test Task 1 Incomplete', 'Test Description 1 Incomplete', false, 12/27/23, 1, 'test note 1', 'Incomplete'),
-('Test Task 2 Completed', 'Test Description 2 Completed', true, 02/13/24, 1, 'test completed 2', 'Completed'),
-('Test Task 3 Incomplete', 'Test Description 3 Incomplete', false, 05/25/24, 2, 'test incomplete 3', 'Started'),
-('Test Task 4 Completed', 'Test Description 4 Completed', true, 08/04/24, 2, NULL , 'Completed');
+('Test Task 1 Incomplete', 'Test Description 1 Incomplete', false, '12/27/23', 1, 'test note 1', 'Incomplete'),
+('Test Task 2 Completed', 'Test Description 2 Completed', true, '02/13/24', 1, 'test completed 2', 'Completed'),
+('Test Task 3 Incomplete', 'Test Description 3 Incomplete', false, '05/25/24', 2, 'test incomplete 3', 'Started'),
+('Test Task 4 Completed', 'Test Description 4 Completed', true, '08/04/24', 2, NULL , 'Completed');
