@@ -15,8 +15,8 @@
     <form action="/login" method="post">
         <label for="username">Select User:</label>
         <select id="username" name="username">
-            <% firstNames.forEach(name => { %>
-                <option value="<%= name %>"><%= name %></option>
+            <% usernames.forEach(username => { %>
+                <option value="<%= username %>"><%= username %></option>
             <% }); %>
         </select>
 

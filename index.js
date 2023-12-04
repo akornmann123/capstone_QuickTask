@@ -60,9 +60,9 @@ app.use((req, res, next) => {
         const client = await pool.connect();
         const sql = "SELECT * FROM userAccounts ORDER BY id ASC;";
         const users = await client.query(sql);
-        const userNames = users.rows.map(user => user.fname);
+        const userNames = users.rows.map(user => user.username);
 
-        res.render('login.ejs', { nav: res.locals.nav, firstNames: userNames });
+        res.render('login.ejs', { nav: res.locals.nav, usernames: userNames });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
