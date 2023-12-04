@@ -221,9 +221,6 @@ app.get('/completed', async (req, res) => {
          // Render the 'tasks' view with both navigation and task list details
         res.render('tasks.ejs', { nav: navHtml, taskListDetails: taskListDetails.join('') });
 
-    } catch (err) {
-        console.error(err);
-
         // Output completed tasks
         res.send(`Completed Tasks:<br>${taskDetails.join('')}`)
 
