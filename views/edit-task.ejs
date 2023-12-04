@@ -24,6 +24,9 @@
             <% }); %>
         </select>
         <br>
+        <label for="due_date">Due Date:</label>
+        <input type="text" id="due_date" name="due_date" value="<%= task.due_date %>">
+        <br>
         <label for="notes">Notes:</label>
         <textarea id="notes" name="notes"><%= task.notes %></textarea>
         <br>
