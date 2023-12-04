@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 const fs = require('fs');
 const path = require('path');
 const ejs = require('ejs');
-
+const bcrypt = require('bcrypt');
 
 const app = express();
 
@@ -52,36 +52,58 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
-// Allow entry of index.html 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname,'index.html'));
-});
-
 // Run schema.sql
  runMigration().catch(err => console.error('Error during migration:', err));
 
-app.get('/', async (req, res) => {
+ app.get('/', async (req, res) => {
     try {
         const client = await pool.connect();
         const sql = "SELECT * FROM userAccounts ORDER BY id ASC;";
         const users = await client.query(sql);
-        console.log("Users:", users.rows);
+        const userNames = users.rows.map(user => user.fname);
 
-        const words = users.rows.map(user => user.fname);
-
-        res.send(`First Names: ${words.join(', ')}`);
+        res.render('login.ejs', { nav: res.locals.nav, firstNames: userNames });
     } catch (err) {
         console.error(err);
-        res.set({
-            "Content-Type": "application/json"
-        });
-        res.json({
-            error: err
-        });
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+// a route to handle login
+app.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const client = await pool.connect();
+        const sql = "SELECT * FROM userAccounts WHERE username = $1";
+        const user = await client.query(sql, [username]);
+
+        if (user.rows.length === 1) {
+            const storedHashedPassword = user.rows[0].password;
+        
+            // Hash password
+            const enteredPassword = hashPassword(password);
+        
+            if (enteredPassword == storedHashedPassword) {
+                // successful login
+                res.redirect('/tasks');
+            } else {
+                // password doesn't match
+                console.log('Password does not match');
+                // password doesn't match
+                res.send('Invalid username or password. <a href="/">Back</a>');
+            }
+        } else {
+            // user not found
+            console.log('User not found');
+            res.send('Invalid username or password. <a href="/">Back</a>');
+        }
+        client.release();
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 app.get('/create-task', (req, res) => {
     
 
@@ -138,7 +160,7 @@ app.post('/create-account', async (req, res) => {
         client.release();
 
         console.log('Account created successfully');
-        res.redirect('/accounts'); // TODO redirect to account page
+        res.redirect('/');
     } catch (error) {
         console.error('Error creating account:', error);
         res.status(500).json({ error: 'Internal server error'});
@@ -200,19 +222,6 @@ app.get('/completed', async (req, res) => {
         });
     }
 });
-
-app.get('/test', async (req, res) => {
-    try {
-        const client = await pool.connect();
-        res.send('Database connection test successful!');
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Database connection test failed.' });
-    }
-});
-
-
-
 
 app.get('/tasks', async (req, res) => {
     try {
