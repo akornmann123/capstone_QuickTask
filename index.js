@@ -165,12 +165,6 @@ app.post('/create-account', async (req, res) => {
         console.error('Error creating account:', error);
         res.status(500).json({ error: 'Internal server error'});
     }
-    console.log('Account created successfully');
-        res.redirect('/');
-    } catch (error) {
-        console.error('Error creating account:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
 });
 
 // view accounts
