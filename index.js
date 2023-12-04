@@ -35,7 +35,7 @@ async function runMigration() {
 }
 
 // Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // include nav links on all pages
 app.use((req, res, next) => {
@@ -326,7 +326,7 @@ app.post('/update-task/:id', async (req, res) => {
 
     try {
         const client = await pool.connect();
-        const sql = "UPDATE tasks SET title = $1, description = $2, user_id = $3, notes = $4, status = $5, due_date=$6 WHERE id = $7";
+        const sql = "UPDATE tasks SET title = $1, description = $2, user_id = $3, notes = $4, status = $5, due_date = $6 WHERE id = $7";
 
         const updatedTask = await client.query(sql, [title, description, userIdNumber, notes, status, due_date ,taskId]);
         client.release();
