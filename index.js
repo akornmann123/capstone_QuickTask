@@ -199,14 +199,14 @@ app.get('/accounts', async (req, res) => {
 app.get('/completed', async (req, res) => {
     try {
         const client = await pool.connect();
-        const sql = "SELECT userAccounts.fName, userAccounts.lName, tasks.title, tasks.description FROM userAccounts INNER JOIN tasks ON userAccounts.id = tasks.user_id WHERE completed = true ORDER BY tasks.id ASC;";
+        const sql = "SELECT userAccounts.fName, userAccounts.lName, tasks.title, tasks.description, tasks.due_date FROM userAccounts INNER JOIN tasks ON userAccounts.id = tasks.user_id WHERE completed = true ORDER BY tasks.id ASC;";
 
         const completedTasks = await client.query(sql);
         console.log("Completed Tasks:", completedTasks.rows);
 
         // Create task details array
         const taskDetails = completedTasks.rows.map(task => {
-            return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>`;
+            return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>Expiration Date: ${task.due_date}`;
         });
 
         // Output completed tasks
@@ -227,7 +227,7 @@ app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
 
-        const sql = "SELECT tasks.id, tasks.title, tasks.description, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
+        const sql = "SELECT tasks.id, tasks.title, tasks.description, tasks.due_date, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
 
         const taskList = await client.query(sql);
         console.log("Task List:", taskList.rows);
@@ -239,6 +239,7 @@ app.get('/tasks', async (req, res) => {
                     <p>Task Title: ${task.title}</p>
                     <p>Task Description: ${task.description}</p>
                     <p>Assigned To: ${task.fname}, ${task.lname}</p>
+                    <p>Due Date: ${task.due_date}</p>
                     
                     <form action="/tasks/${task.id}/notes" method="POST">
                         <label for="taskNotes"Add Notes:</label>
