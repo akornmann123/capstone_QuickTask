@@ -209,6 +209,21 @@ app.get('/completed', async (req, res) => {
             return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>Expiration Date: ${task.due_date}<br>`;
         });
 
+        const navHtml = `
+            <nav>
+                <a href="/tasks">Task List</a>
+                <a href="/view-task.js">View Task</a>
+                <a href="/create-task">Create Task</a>
+                <a href="/accountForm.html">Create Account</a>
+                <a href="/completed">Completed Tasks</a>
+            </nav>`;
+
+         // Render the 'tasks' view with both navigation and task list details
+        res.render('tasks.ejs', { nav: navHtml, taskListDetails: taskListDetails.join('') });
+
+    } catch (err) {
+        console.error(err);
+
         // Output completed tasks
         res.send(`Completed Tasks:<br>${taskDetails.join('')}`)
 
