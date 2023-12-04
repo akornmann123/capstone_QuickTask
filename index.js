@@ -104,8 +104,17 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.get('/create-task', (req, res) => {
-    
+app.get('/create-task', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        const sql = "SELECT * FROM tasks";
+        const tasks = await client.query(sql);
+
+        res.render('create-task.ejs', { nav: res.locals.nav, tasks: Tasks });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 
 });
 // Create Tasks
@@ -114,10 +123,9 @@ app.post('/create-task', function(req, res, next) {
     var description = req.body.description;
     var due_date = req.body.due_date;
     var assigned_to = req.body.assigned_to;
-    var employee_email = req.body.employee_email;
     var notes = req.body.notes;
 
-    var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, employee_email, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${employee_email}', '${notes}')`;
+    var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, employee_email, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${notes}')`;
     db.query(sql, function (err, result) {
         if (err) throw err;
         console.log("Task Created");
