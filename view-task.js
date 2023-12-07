@@ -7,7 +7,7 @@ router.get('/view-task/:id', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM tasks WHERE id = $1', [taskId]);
     if (rows.length === 1) {
-      res.status(200).json(rows[0]);
+      res.render('view-task.ejs', { task: rows[0] });
     } else {
       res.status(404).json({ error: 'Task not found.' });
     }
