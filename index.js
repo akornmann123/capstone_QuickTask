@@ -203,13 +203,7 @@ app.get('/completed', async (req, res) => {
         const completedTasks = await client.query(sql);
         console.log("Completed Tasks:", completedTasks.rows);
 
-        // Create task details array
-        const taskDetails = completedTasks.rows.map(task => {
-            return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>Expiration Date: ${task.due_date}<br>`;
-        });
-        
-        // Output completed tasks
-        res.send(`Completed Tasks:<br>${taskDetails.join('')}`)
+        res.render('completed.ejs', { completedTasks: completedTasks.rows });
 
     } catch (err) {
         console.error(err);
