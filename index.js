@@ -43,7 +43,7 @@ app.use((req, res, next) => {
         <nav>
             <a href="/">Login</a>
             <a href="/tasks">Task List</a>
-            <a href="/view-task.ejs">View Task</a>
+            <a href="/view-task">View Task</a>
             <a href="/create-task">Create Task</a>
             <a href="/accountForm.html">Create Account</a>
             <a href="/completed">Completed Tasks</a>
@@ -75,35 +75,41 @@ app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
         const client = await pool.connect();
-        const sql = "SELECT * FROM userAccounts WHERE username = $1";
-        const user = await client.query(sql, [username]);
+
+        const selectUserSQL = "SELECT * FROM userAccounts WHERE username = $1";
+        const user = await client.query(selectUserSQL, [username]);
 
         if (user.rows.length === 1) {
             const storedHashedPassword = user.rows[0].password;
-        
-            // Hash password
+
             const enteredPassword = hashPassword(password);
-        
-            if (enteredPassword == storedHashedPassword) {
-                // successful login
+
+            // Successful login
+            if (enteredPassword === storedHashedPassword) {
+
+                // Set all users' isLoggedIn to false
+                const logoutQuery = "UPDATE userAccounts SET isLoggedIn = false";
+                await client.query(logoutQuery);
+
+                // Set the current user's isLoggedIn to true
+                const loginQuery = "UPDATE userAccounts SET isLoggedIn = true WHERE username = $1";
+                await client.query(loginQuery, [username]);
+
                 res.redirect('/tasks');
             } else {
-                // password doesn't match
-                console.log('Password does not match');
-                // password doesn't match
                 res.send('Invalid username or password. <a href="/">Back</a>');
             }
         } else {
-            // user not found
-            console.log('User not found');
             res.send('Invalid username or password. <a href="/">Back</a>');
         }
+
         client.release();
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 app.get('/create-task', async (req, res) => {
 
@@ -295,6 +301,24 @@ app.post('/update-task/:id', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// view currently assigned tasks based on logged in user
+app.get('/view-task', async (req, res) => {
+    const loggedInQuery = "SELECT * FROM userAccounts WHERE isLoggedIn = true";
+    const loggedInUser = await pool.query(loggedInQuery);
+
+    if (loggedInUser.rows.length > 0) {
+        const userTasksQuery = "SELECT * FROM tasks WHERE user_id = $1";
+        const userTasks = await pool.query(userTasksQuery, [loggedInUser.rows[0].id]);
+
+        if (userTasks.rows.length > 0) {
+            console.log(userTasks.rows);
+            res.render('view-task.ejs', { tasks: userTasks.rows });
+        } else {
+            res.status(404).json({ error: 'No tasks found.' });
+        }
     }
 });
 
