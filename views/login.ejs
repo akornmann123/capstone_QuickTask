@@ -1,5 +1,3 @@
-<!-- login.ejs -->
-
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -10,8 +8,7 @@
 </head>
 <body>
     <h2>Welcome to QuickTask</h2>
-    <%- nav %>
-    
+    <%- nav %> 
     <form action="/login" method="post">
         <label for="username">Select User:</label>
         <select id="username" name="username">
@@ -20,7 +17,6 @@
             <% }); %>
         </select>
 
-        <!-- Add a password field -->
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
 

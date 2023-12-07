@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <title>Task List</title>
+</head>
+<body>
+    <h2>Task List</h2>
+    <%- nav %>
+        <% taskList.forEach(task => { %>
+            <div class="task-details">
+                <p>Task Title: <%= task.title %></p>
+                <p>Task Description: <%= task.description %></p>
+                <p>Assigned To: <%= task.fname %>, <%= task.lname %></p>
+                <p>Due Date: <%= task.due_date %></p>
+
+                <form action="/tasks/<%= task.id %>/notes" method="POST">
+                    <label for="taskNotes">Add Notes:</label>
+                    <input type="text" id="taskNotes" name="notes">
+                    <button type="submit">Add Notes</button>
+                </form>
+
+                <a href="/edit-task/<%= task.id %>">
+                    <button type="button">Edit Task</button>
+                </a>
+            </div>
+        <% }); %>
+</body>
+</html>

@@ -41,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
     const navHtml = `
         <nav>
+            <a href="/">Login</a>
             <a href="/tasks">Task List</a>
             <a href="/view-task.js">View Task</a>
             <a href="/create-task">Create Task</a>
@@ -192,7 +193,7 @@ app.get('/accounts', async (req, res) => {
         });
     }
 });
-  
+
 // completed tasks
 app.get('/completed', async (req, res) => {
     try {
@@ -202,95 +203,56 @@ app.get('/completed', async (req, res) => {
         const completedTasks = await client.query(sql);
         console.log("Completed Tasks:", completedTasks.rows);
 
-        // Create task details array
-        const taskDetails = completedTasks.rows.map(task => {
-            return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>Expiration Date: ${task.due_date}<br>`;
-        });
-        
-        // Output completed tasks
-        res.send(`Completed Tasks:<br>${taskDetails.join('')}`)
+        res.render('completed.ejs', { completedTasks: completedTasks.rows });
 
     } catch (err) {
         console.error(err);
-        res.set({
-            "Content-Type": "application/json"
-        });
-        res.json({
-            error: err
-        });
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
+// tasks
 app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
-
         const sql = "SELECT tasks.id, tasks.title, tasks.description, tasks.due_date, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
 
         const taskList = await client.query(sql);
         console.log("Task List:", taskList.rows);
 
-        // Create task details array
-        const taskListDetails = taskList.rows.map(task => {
-            return `
-                <div>
-                    <p>Task Title: ${task.title}</p>
-                    <p>Task Description: ${task.description}</p>
-                    <p>Assigned To: ${task.fname}, ${task.lname}</p>
-                    <p>Due Date: ${task.due_date}</p>
-                    
-                    <form action="/tasks/${task.id}/notes" method="POST">
-                        <label for="taskNotes"Add Notes:</label>
-                        <input type="text" id="taskNotes" name="notes">
-                        <button type="submit">Add Notes</button>
-                    </form>
-                    <a href="/edit-task/${task.id}">
-                        <button type="button">Edit Task</button>
-                    </a>
-                </div>
-                `;
-        });
-
-        // Output completed tasks
-        res.send(`Task List:<br>${taskListDetails.join('')}`)
+        res.render('tasks.ejs', { taskList: taskList.rows });
 
     } catch (err) {
         console.error(err);
-        res.set({
-            "Content-Type": "application/json"
-        });
-        res.json({
-            error: err
-        });
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
     
-    app.post('/tasks/:id/notes', async (req, res) => {
-        const taskId = req.params.id;
-        const { notes } = req.body;
+app.post('/tasks/:id/notes', async (req, res) => {
+    const taskId = req.params.id;
+    const { notes } = req.body;
 
-        try {
-            const client = await pool.connect();
-            const sql = "UPDATE tasks SET notes = $1 WHERE id = $2 RETURNING *";
+    try {
+        const client = await pool.connect();
+        const sql = "UPDATE tasks SET notes = $1 FROM userAccounts WHERE tasks.id = $2 AND tasks.user_id = userAccounts.id RETURNING tasks.*, userAccounts.fname, userAccounts.lName";
 
-            // update notes in database
-            const updatedTask = await client.query(sql, [notes, taskId]);
-            client.release();
+        // update notes in database
+        const updatedTask = await client.query(sql, [notes, taskId]);
+        client.release();
 
-            // Create task list details array
-            const taskListDetails = updatedTask.rows.map(task => {
-            return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>Task Notes: ${task.notes}`;
-        });
-
-            // Output info plus note
-        res.send(`Task List:<br>${taskListDetails.join('')}`)
-
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ error: 'Internal server error'});
-        }
+        // Create task list details array
+        const taskListDetails = updatedTask.rows.map(task => {
+        return `<br>Task Title: ${task.title}<br>Task Description: ${task.description}<br>Completed By: ${task.fname} ${task.lname}<br>Task Notes: ${task.notes}`;
     });
 
+        // Output info plus note
+    res.send(`Task List:<br>${taskListDetails.join('')}<br><a href="/tasks">Back</a>`)
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error'});
+    }
+});
 
   // the edit task button found in the task list page
 app.get('/edit-task/:id', async (req, res) => {

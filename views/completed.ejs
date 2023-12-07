@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <title>Completed Tasks</title>
+</head>
+<body>
+    <h2>Completed Tasks</h2>
+    <%- nav %>
+    <% completedTasks.forEach(task => { %>
+        <div>
+            <p>Task Title: <%= task.title %></p>
+            <p>Task Description: <%= task.description %></p>
+            <p>Completed By: <%= task.fname %> <%= task.lname %></p>
+            <p>Expiration Date: <%= task.due_date %></p>
+        </div><br>
+    <% }); %>
+</body>
+</html>
