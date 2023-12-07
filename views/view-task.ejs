@@ -6,12 +6,15 @@
   <title>View Task</title>
 </head>
 <body>
-  <h1>Task Details</h1>
-  <ul>
-    <li>ID: <%= task.id %></li>
-    <li>Title: <%= task.title %></li>
-    <li>Description: <%= task.description %></li>
-  </ul>
+    <h1>Task Details</h1>
+    <h2>Hello <%= tasks[0].fName %></h2>
+    <% tasks.forEach(task => { %>
+      <ul>
+        <li>ID: <%= task.id %></li>
+        <li>Title: <%= task.title %></li>
+        <li>Description: <%= task.description %></li>
+      </ul>
+    <% }); %>
   <a href="/tasks">Back to the Task List</a>
 </body>
 </html>
