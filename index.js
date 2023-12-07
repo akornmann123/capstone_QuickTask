@@ -218,7 +218,7 @@ app.get('/tasks', async (req, res) => {
         const sql = "SELECT tasks.id, tasks.title, tasks.description, tasks.due_date, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
 
         const taskList = await client.query(sql);
-        console.log("Task List:", taskList.rows);
+        //console.log("Task List:", taskList.rows);
 
         res.render('tasks.ejs', { taskList: taskList.rows });
 
