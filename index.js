@@ -110,8 +110,28 @@ app.post('/login', async (req, res) => {
     }
 });
 
+function createEmptyTask() {
+    return {
+        title: '',
+        description: '',
+        due_date: '',
+        userId: null, // You may set it to the default user if applicable
+        notes: ''
+    };
+}
 
 app.get('/create-task', async (req, res) => {
+ try {
+        // Fetch the list of users
+        const users = await fetchUsers(); // Replace with your logic to fetch users
+
+        const emptyTask = createEmptyTask();
+
+        res.render('create-task.ejs', { users, task: emptyTask });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 
 });
 // Create Tasks
