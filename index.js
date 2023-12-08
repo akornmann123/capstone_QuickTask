@@ -120,11 +120,23 @@ function createEmptyTask() {
     };
 }
 
-app.get('/create-task', async (req, res) => {
- try {
-        // Fetch the list of users
-        const users = await fetchUsers(); // Replace with your logic to fetch users
+async function fetchUsers() {
+    try {
+        const client = await pool.connect();
+        const sql = "SELECT * FROM userAccounts ORDER BY id ASC";
+        const users = await client.query(sql);
+        client.release();
+        return users.rows;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+}
 
+
+app.get('/create-task', async (req, res) => {
+    try {
+        const users = await fetchUsers();
         const emptyTask = createEmptyTask();
 
         res.render('create-task.ejs', { users, task: emptyTask });
@@ -132,24 +144,27 @@ app.get('/create-task', async (req, res) => {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
     }
-
 });
 // Create Tasks
-app.post('/create-task', function(req, res, next) {
-    var title = req.body.title;
-    var description = req.body.description;
-    var due_date = req.body.due_date;
-    var assigned_to = req.body.userId;
-    var notes = req.body.notes;
+app.post('/create-task', async (req, res) => {
+    try {
+        const { title, description, due_date, userId, notes } = req.body;
 
-    var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${notes}')`;
-    db.query(sql, function (err, result) {
-        if (err) throw err;
+        // Insert data into the tasks table
+        const client = await pool.connect();
+        const sql = 'INSERT INTO tasks (title, description, due_date, user_id, notes) VALUES ($1, $2, $3, $4, $5)';
+        const values = [title, description, due_date, userId, notes];
+
+        await client.query(sql, values);
+        client.release();
+
         console.log("Task Created");
-        res.redirect('/');
-    });
+        res.redirect('/tasks');
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
-
 
 // require for hashing (Node.js Crypto Module)
 const crypto = require('crypto');
