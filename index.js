@@ -142,7 +142,7 @@ app.post('/create-task', function(req, res, next) {
     var assigned_to = req.body.userId;
     var notes = req.body.notes;
 
-    var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, employee_email, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${notes}')`;
+    var sql = `INSERT INTO tasks (title, description, due_date, assigned_to, notes ) VALUES ('${title}', '${description}', '${due_date}', '${assigned_to}', '${notes}')`;
     db.query(sql, function (err, result) {
         if (err) throw err;
         console.log("Task Created");
