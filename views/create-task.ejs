@@ -8,7 +8,7 @@
 <body>
     <h1>Create Task</h1>
     <%- nav %>
-    <form action="/create-task/<%= task.id %>" method="POST">
+    <form action="/create-task" method="POST">
         <label for="title">Title of Task:</label>
         <input type="text" id="title" name="title" value="<%= task.title %>">
         <br>
