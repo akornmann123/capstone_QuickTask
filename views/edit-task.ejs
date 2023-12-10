@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+<div class="content">
     <h1>Edit Task</h1>
     <%- nav %>
     <form action="/update-task/<%= task.id %>" method="POST">
@@ -41,5 +42,6 @@
     </form>
 
     <a href="/tasks">Back to Task List</a>
+</div>
 </body>
 </html>
