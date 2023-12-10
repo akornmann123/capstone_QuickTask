@@ -32,14 +32,15 @@
     
   </head>
   <body>
-  <nav>
-    <a href="/">Login</a>
-    <a href="/tasks">Task List</a>
-    <a href="/view-task">View Task</a>
-    <a href="/create-task">Create Task</a>
-    <a href="/accountForm.html">Create Account</a>
-    <a href="/completed">Completed Tasks</a>
-  </nav>
+  <div class="content">
+    <nav>
+      <a href="/">Login</a>
+      <a href="/tasks">Task List</a>
+      <a href="/view-task">View Task</a>
+      <a href="/create-task">Create Task</a>
+      <a href="/accountForm.html">Create Account</a>
+      <a href="/completed">Completed Tasks</a>
+    </nav>
     <h2>Create Account:</h2><br><br>
     <form id="accountForm" action="/create-account" method="post" onsubmit="return submit()">
       <label for="fname">First Name:</label><br>
@@ -59,7 +60,7 @@
       <input type="text" id="confirmPassword" name="confirmPassword"><br><br>
       <button type="submit" onclick= submit()>Submit</button>
     </form>
-  
+  </div>
   </body>
 
   
