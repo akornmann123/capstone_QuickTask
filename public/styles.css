@@ -15,8 +15,14 @@ body {
   color: white;
 }
 
-a {
+.nav {
+  background-color: 2D638C;
+}
+
+.nav a {
+  float: inline;
   color: white;
+  text-align: center;
   padding: 10px;
 }
 
