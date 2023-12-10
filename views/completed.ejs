@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+<div class="content">
     <h2>Completed Tasks</h2>
     <%- nav %>
     <% completedTasks.forEach(task => { %>
@@ -16,5 +17,6 @@
             <p>Expiration Date: <%= task.due_date %></p>
         </div><br>
     <% }); %>
+</div>
 </body>
 </html>
