@@ -8,7 +8,9 @@
 <body>
 <div class="content">
     <h1 class="title">Task List</h1>
-    <%- nav %>
+    <div class="nav">
+        <%- nav %>
+    </div>
         <% taskList.forEach(task => { %>
             <div class="task-details">
                 <p>Task Title: <%= task.title %></p>
