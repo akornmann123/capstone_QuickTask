@@ -21,8 +21,7 @@ CREATE TABLE tasks (
     employee_email TEXT,
     completed BOOLEAN NOT NULL DEFAULT false,
     user_id INTEGER REFERENCES userAccounts(id),
-    notes TEXT,
-    status TEXT
+    notes TEXT
 );
 
 INSERT INTO userAccounts (fName, lName, job, username, password, isLoggedIn) VALUES ('Missy', 'Rambo', 'Employee', 'mRambo', 'secure', false);
@@ -37,8 +36,8 @@ INSERT INTO userAccounts (fName, lName, job, username, password, isLoggedIn) VAL
 INSERT INTO userAccounts (fName, lName, job, username, password, isLoggedIn) VALUES ('admin', 'admin', 'Manager', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', false);
 
 -- insert tasks
-INSERT INTO tasks (title, description, completed, due_date, user_id, notes, status) VALUES
-('Test Task 1 Incomplete', 'Test Description 1 Incomplete', false, '12/27/23', 10, 'test note 1', 'Incomplete'),
-('Test Task 2 Completed', 'Test Description 2 Completed', true, '02/13/24', 1, 'test completed 2', 'Completed'),
-('Test Task 3 Incomplete', 'Test Description 3 Incomplete', false, '05/25/24', 2, 'test incomplete 3', 'Started'),
-('Test Task 4 Completed', 'Test Description 4 Completed', true, '08/04/24', 2, NULL , 'Completed');
+INSERT INTO tasks (title, description, completed, due_date, user_id, notes) VALUES
+('Test Task 1 Incomplete', 'Test Description 1 Incomplete', false, '12/27/23', 10, 'test note 1'),
+('Test Task 2 Completed', 'Test Description 2 Completed', true, '02/13/24', 1, 'test completed 2'),
+('Test Task 3 Incomplete', 'Test Description 3 Incomplete', false, '05/25/24', 2, 'test incomplete 3'),
+('Test Task 4 Completed', 'Test Description 4 Completed', true, '08/04/24', 2, NULL );

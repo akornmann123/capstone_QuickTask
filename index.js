@@ -321,15 +321,15 @@ app.get('/edit-task/:id', async (req, res) => {
 app.post('/update-task/:id', async (req, res) => {
     console.log(req.body);
     const taskId = req.params.id;
-    const { title, description, userId, notes, status, due_date } = req.body;
+    const { title, description, userId, notes, completed, due_date } = req.body;
 
     const userIdNumber = parseInt(userId);
 
     try {
         const client = await pool.connect();
-        const sql = "UPDATE tasks SET title = $1, description = $2, user_id = $3, notes = $4, status = $5, due_date = $6 WHERE id = $7";
+        const sql = "UPDATE tasks SET title = $1, description = $2, user_id = $3, notes = $4, completed = $5, due_date = $6 WHERE id = $7";
 
-        const updatedTask = await client.query(sql, [title, description, userIdNumber, notes, status, due_date ,taskId]);
+        const updatedTask = await client.query(sql, [title, description, userIdNumber, notes, completed, due_date ,taskId]);
         client.release();
 
         res.redirect('/tasks');

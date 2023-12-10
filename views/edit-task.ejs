@@ -30,11 +30,10 @@
         <label for="notes">Notes:</label>
         <textarea id="notes" name="notes"><%= task.notes %></textarea>
         <br>
-        <label for="status">Status:</label>
-        <select id="status" name="status">
-            <option value="Incomplete" <%= task.status === 'Incomplete' ? 'selected' : '' %>>Incomplete</option>
-            <option value="Completed" <%= task.status === 'Completed' ? 'selected' : '' %>>Completed</option>
-            <option value="Started" <%= task.status === 'Started' ? 'selected' : '' %>>Started</option>
+        <label for="completed">Status:</label>
+        <select id="completed" name="completed">
+            <option value="false" <%= task.completed == false ? 'selected' : '' %>>Incomplete</option>
+            <option value="true" <%= task.completed == true ? 'selected' : '' %>>Completed</option>
         </select>
         <br>
         <button type="submit">Update Task</button>
