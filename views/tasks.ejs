@@ -13,11 +13,11 @@
     </div>
         <% taskList.forEach(task => { %>
             <div class="task-details">
-                <p>Task Title: <%= task.title %></p>
-                <p>Task Description: <%= task.description %></p>
-                <p>Assigned To: <%= task.fname %>, <%= task.lname %></p>
-                <p>Due Date: <%= task.due_date %></p>
-                <p>Notes: <%= task.notes %></p>
+                <p><b>Task Title:</b> <%= task.title %></p>
+                <p><b>Task Description:</b> <%= task.description %></p>
+                <p><b>Assigned To:</b> <%= task.fname %>, <%= task.lname %></p>
+                <p><b>Due Date:</b> <%= task.due_date %></p>
+                <p><b>Notes:</b> <%= task.notes %></p>
 
                 <form action="/tasks/<%= task.id %>/notes" method="POST">
                     <!--<label for="taskNotes">Add Notes:</label>-->
