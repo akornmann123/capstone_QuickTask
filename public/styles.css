@@ -34,4 +34,7 @@ a {
   color: white;
 }
 
+.nav a:hover {
+  color: #293B70;
+}
 
