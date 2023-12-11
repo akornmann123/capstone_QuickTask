@@ -20,14 +20,15 @@
                 <p>Notes: <%= task.notes %></p>
 
                 <form action="/tasks/<%= task.id %>/notes" method="POST">
-                    <label for="taskNotes">Add Notes:</label>
+                    <!--<label for="taskNotes">Add Notes:</label>-->
                     <input type="text" id="taskNotes" name="notes">
                     <button type="submit">Add Notes</button>
                 </form>
 
                 <a href="/edit-task/<%= task.id %>">
-                    <button type="button">Edit Task</button>
+                    <br><button type="button">Edit Task</button>
                 </a>
+                <br><p>-----------------------------------------------------------------------------------------------</p>
             </div>
         <% }); %>
 </div>
