@@ -21,6 +21,8 @@ body {
 
 .nav {
   background-color: #1471B7;
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
 .nav a {
