@@ -17,6 +17,7 @@
                 <p>Task Description: <%= task.description %></p>
                 <p>Assigned To: <%= task.fname %>, <%= task.lname %></p>
                 <p>Due Date: <%= task.due_date %></p>
+                <p>Notes: <%= task.notes %></p>
 
                 <form action="/tasks/<%= task.id %>/notes" method="POST">
                     <label for="taskNotes">Add Notes:</label>

@@ -256,7 +256,7 @@ app.get('/completed', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
-        const sql = "SELECT tasks.id, tasks.title, tasks.description, tasks.due_date, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
+        const sql = "SELECT tasks.id, tasks.title, tasks.description, tasks.due_date, tasks.notes, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
 
         const taskList = await client.query(sql);
         //console.log("Task List:", taskList.rows);
@@ -287,7 +287,7 @@ app.post('/tasks/:id/notes', async (req, res) => {
     });
 
         // Output info plus note
-    res.send(`Task List:<br>${taskListDetails.join('')}<br><a href="/tasks">Back</a>`)
+        res.send(`<link rel="stylesheet" href="../../styles.css">Task List:<br>${taskListDetails.join('')}<br><a href="/tasks">Back</a>`)
 
     } catch (err) {
         console.error(err);
