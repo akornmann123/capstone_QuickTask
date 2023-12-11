@@ -143,3 +143,42 @@ textarea {
 .task-details a button:hover {
     background-color: #45a049;
 }
+
+/* Create Task Styling */
+
+.create-task-form {
+    max-width: 400px;
+    margin: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    color: #2D638C; /* Dark blue text color for form elements */
+}
+
+.create-task-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.create-task-form input,
+.create-task-form textarea,
+.create-task-form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.create-task-form button {
+    background-color: #1471B7;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-task-form button:hover {
+    background-color: #293B70;
+}
