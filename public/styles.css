@@ -9,6 +9,9 @@ body {
   margin: auto;
   color: white;
   background-color: #2D638C;
+  padding: 20px; 
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .title {
@@ -52,16 +55,16 @@ textarea {
 .login-form {
     width: 300px;
     margin: 0 auto;
-    background-color: #ffffff; /* White background */
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 .login-form label {
     display: block;
     margin-bottom: 10px;
-    color: #2D638C; /* Dark blue text color */
+    color: #2D638C;
 }
 
 .login-form input {
@@ -72,7 +75,7 @@ textarea {
 }
 
 .login-form button {
-    background-color: #1471B7; /* Dark blue button */
+    background-color: #1471B7;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -81,9 +84,9 @@ textarea {
 }
 
 .login-form button:hover {
-    background-color: #293B70; /* Darker blue on hover */
+    background-color: #293B70; 
 }
 
 .login-form p {
-    color: #2D638C; /* Dark blue text color */
+    color: #2D638C;
 }
