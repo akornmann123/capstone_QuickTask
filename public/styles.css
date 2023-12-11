@@ -229,7 +229,7 @@ button:hover {
     margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    color: #2D638C; /* Dark blue text color for completed task details */
+    color: #2D638C; 
 }
 
 .completed-task-details p {
