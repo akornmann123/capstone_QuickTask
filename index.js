@@ -43,6 +43,7 @@ app.use((req, res, next) => {
         <nav>
             <a href="/">Login</a>
             <a href="/tasks">Task List</a>
+            <a href="/view-task">View My Tasks</a>
             <a href="/create-task">Create Task</a>
             <a href="/accountForm.html">Create Account</a>
             <a href="/completed">Completed Tasks</a>
@@ -53,7 +54,7 @@ app.use((req, res, next) => {
 });
 
 // Run schema.sql
- runMigration().catch(err => console.error('Error during migration:', err));
+ //runMigration().catch(err => console.error('Error during migration:', err));
 
  app.get('/', async (req, res) => {
     try {
@@ -340,19 +341,29 @@ app.post('/update-task/:id', async (req, res) => {
 
 // view currently assigned tasks based on logged in user
 app.get('/view-task', async (req, res) => {
-    const loggedInQuery = "SELECT * FROM userAccounts WHERE isLoggedIn = true";
-    const loggedInUser = await pool.query(loggedInQuery);
+    try {
+        const loggedInQuery = "SELECT * FROM userAccounts WHERE isLoggedIn = true";
+        const loggedInUser = await pool.query(loggedInQuery);
 
-    if (loggedInUser.rows.length > 0) {
-        const userTasksQuery = "SELECT * FROM tasks WHERE user_id = $1";
-        const userTasks = await pool.query(userTasksQuery, [loggedInUser.rows[0].id]);
+        if (loggedInUser.rows.length > 0) {
+            const userTasksQuery = "SELECT tasks.id, tasks.title, tasks.description, tasks.due_date, tasks.notes, tasks.completed, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id WHERE tasks.user_id = $1";
+            
+            const userTasks = await pool.query(userTasksQuery, [loggedInUser.rows[0].id]);
 
-        if (userTasks.rows.length > 0) {
-            console.log(userTasks.rows);
-            res.render('view-task.ejs', { tasks: userTasks.rows });
+            if (userTasks.rows.length > 0) {
+                console.log(userTasks.rows);
+                res.render('view-task.ejs', { tasks: userTasks.rows });
+            } else {
+                // no tasks are found
+                res.render('view-task.ejs', { tasks: [] });
+            }
         } else {
-            res.status(404).json({ error: 'No tasks found.' });
+            // no logged-in user
+            res.render('view-task.ejs', { tasks: [] });
         }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
