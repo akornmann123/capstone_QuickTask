@@ -100,12 +100,13 @@ textarea {
     margin-bottom: 10px;
     border-radius: 8px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    color: #2D638C; 
 }
 
 .task-details p {
     margin: 5px 0;
+    color: #000000;
 }
-
 .task-details form {
     margin-top: 10px;
     display: flex;
