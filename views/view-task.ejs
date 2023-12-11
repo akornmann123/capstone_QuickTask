@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Task</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="content">
+        <h1>Task Details</h1>
+        <% if (tasks.length > 0) { %>
+            <h2>Hello <%= tasks[0].fname %></h2>
+            <% tasks.forEach(task => { %>
+                <div class="task-details">
+                    <p><b>Task Title:</b> <%= task.title %></p>
+                    <p><b>Task Description:</b> <%= task.description %></p>
+                    <p><b>Assigned To:</b> <%= task.fname %>, <%= task.lname %></p>
+                    <p><b>Due Date:</b> <%= task.due_date %></p>
+                    <p><b>Notes:</b> <%= task.notes %></p>
+                    <p><b>Status:</b> <%= task.completed ? 'Completed' : 'Incomplete' %></p>
+
+                    <form action="/tasks/<%= task.id %>/notes" method="POST">
+                        <!--<label for="taskNotes">Add Notes:</label>-->
+                        <input type="text" id="taskNotes" name="notes" placeholder="Add Notes">
+                        <button type="submit">Add Notes</button>
+                    </form>
+
+                    <a href="/edit-task/<%= task.id %>">
+                        <br><button type="button">Edit Task</button>
+                    </a>
+                    <br><p>-----------------------------------------------------------------------------------------------</p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>Make sure you are logged in and have assigned tasks to use this page.</p>
+        <% } %>
+        <a href="/tasks">Back to the Task List</a>
+    </div>
+</body>
+</html>
