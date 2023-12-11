@@ -220,3 +220,18 @@ button {
 button:hover {
     background-color: #293B70;
 }
+
+/*Completed Tasks Page*/
+
+.completed-task-details {
+    background-color: #ffffff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    color: #2D638C; /* Dark blue text color for completed task details */
+}
+
+.completed-task-details p {
+    margin: 5px 0;
+}
