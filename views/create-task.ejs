@@ -12,7 +12,7 @@
     <div class="nav">
         <%- nav %>
     </div><br>
-    <form action="/create-task" method="POST">
+    <form action="/create-task" method="POST" class="create-task-form">
         <label for="title">Title of Task:</label>
         <input type="text" id="title" name="title" value="<%= task.title %>">
         <br>
