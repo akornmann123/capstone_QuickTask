@@ -12,7 +12,7 @@
         <%- nav %>
     </div>
     <% completedTasks.forEach(task => { %>
-        <div>
+        <div class="completed-task-details">
             <p><b>Task Title:</b> <%= task.title %></p>
             <p><b>Task Description:</b> <%= task.description %></p>
             <p><b>Completed By:</b> <%= task.fname %> <%= task.lname %></p>
