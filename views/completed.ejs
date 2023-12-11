@@ -13,11 +13,11 @@
     </div>
     <% completedTasks.forEach(task => { %>
         <div>
-            <p>Task Title: <%= task.title %></p>
-            <p>Task Description: <%= task.description %></p>
-            <p>Completed By: <%= task.fname %> <%= task.lname %></p>
-            <p>Expiration Date: <%= task.due_date %></p>
-            <p>Notes: <%= task.notes %></p>
+            <p><b>Task Title:</b> <%= task.title %></p>
+            <p><b>Task Description:</b> <%= task.description %></p>
+            <p><b>Completed By:</b> <%= task.fname %> <%= task.lname %></p>
+            <p><b>Expiration Date:</b> <%= task.due_date %></p>
+            <p><b>Notes:</b> <%= task.notes %></p>
         </div><br>
     <% }); %>
 </div>
