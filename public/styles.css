@@ -38,3 +38,13 @@ a {
   color: #293B70;
 }
 
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+textarea {
+  margin-bottom: 5px;
+}
+

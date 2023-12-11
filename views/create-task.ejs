@@ -16,8 +16,10 @@
         <label for="title">Title of Task:</label>
         <input type="text" id="title" name="title" value="<%= task.title %>">
         <br>
+        <br>
         <label for="description">Description:</label>
         <textarea id="description" name="description"><%= task.description %></textarea>
+        <br>
         <br>
         <label for="userId">Assigned To:</label>
         <select id="userId" name="userId">
@@ -28,12 +30,13 @@
             <% }); %>
         </select>
         <br>
+        <br>
         <label for="due_date">Due Date:</label>
         <input type="text" id="due_date" name="due_date" value="<%= task.due_date %>">
-        <br>
+        <br><br>
         <label for="notes">Notes:</label>
         <textarea id="notes" name="notes"><%= task.notes %></textarea>
-        <br>
+        <br><br>
         <button type="submit">Create Task</button>
     </form><br>
 
