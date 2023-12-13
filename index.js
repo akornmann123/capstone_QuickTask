@@ -295,49 +295,63 @@ app.post('/tasks/:id/notes', async (req, res) => {
     }
 });
 
-  // the edit task button found in the task list page
+// the edit task button found in the task list page
 app.get('/edit-task/:id', async (req, res) => {
     const taskId = req.params.id;
+    let client;
+
     try {
-        const client = await pool.connect();
+        client = await pool.connect();
         const taskSql = "SELECT tasks.*, userAccounts.fName, userAccounts.lName FROM tasks JOIN userAccounts ON tasks.user_id = userAccounts.id WHERE tasks.id = $1";
         const userSql = "SELECT id, fName, lName FROM userAccounts";
 
-        const { rows: taskRows} = await client.query(taskSql, [taskId]);
-        const { rows: userRows} = await client.query(userSql);
-  
-      if (taskRows.length === 1) {
-        res.render('edit-task.ejs', { task: taskRows[0], users: userRows });
-      } else {
-        res.status(404).json({ error: 'Task not found.' });
-      }
+        try {
+            const { rows: taskRows } = await client.query(taskSql, [taskId]);
+            const { rows: userRows } = await client.query(userSql);
+
+            if (taskRows.length === 1) {
+                res.render('edit-task.ejs', { task: taskRows[0], users: userRows });
+            } else {
+                res.status(404).json({ error: 'Task not found.' });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error.' });
+        } finally {
+            client.release();
+        }
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal server error.' });
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
 
 // the update task button found in the edit page
 app.post('/update-task/:id', async (req, res) => {
-    console.log(req.body);
     const taskId = req.params.id;
     const { title, description, userId, notes, completed, due_date } = req.body;
-
     const userIdNumber = parseInt(userId);
+    let client;
 
     try {
-        const client = await pool.connect();
+        client = await pool.connect();
         const sql = "UPDATE tasks SET title = $1, description = $2, user_id = $3, notes = $4, completed = $5, due_date = $6 WHERE id = $7";
 
-        const updatedTask = await client.query(sql, [title, description, userIdNumber, notes, completed, due_date ,taskId]);
-        client.release();
-
-        res.redirect('/tasks');
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
+        try {
+            const updatedTask = await client.query(sql, [title, description, userIdNumber, notes, completed, due_date, taskId]);
+            res.redirect('/tasks');
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Internal server error' });
+        } finally {
+            client.release();
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
+
 
 // view currently assigned tasks based on logged in user
 app.get('/view-task', async (req, res) => {
