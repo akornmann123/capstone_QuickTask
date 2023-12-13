@@ -25,7 +25,7 @@ CREATE TABLE tasks (
 );
 
 INSERT INTO userAccounts (fName, lName, job, username, password, isLoggedIn) VALUES ('Missy', 'Rambo', 'Employee', 'mRambo', 'secure', false);
-INSERT INTO userAccounts (fName, lName, job, username, password, isLoggedIn) VALUES ('Mister', 'Rodger', 'Employee', 'username', 'password', false);
+INSERT INTO userAccounts (fName, lName, job, username, password, isLoggedIn) VALUES ('Mister', 'Rodger', 'Employee', 'username', 'cool651', false);
 INSERT INTO userAccounts (fName, lName, job, username, password, isLoggedIn) VALUES ('John', 'Johnson', 'Employee', 'username', 'password', false);
 INSERT INTO userAccounts (fName, lName, job, username, password, isLoggedIn) VALUES ('Kelly', 'Morrison', 'Employee', 'username', 'password', false);
 INSERT INTO userAccounts (fName, lName, job, username, password, isLoggedIn) VALUES ('Betty', 'Crocker', 'Employee', 'username', 'password', false);
