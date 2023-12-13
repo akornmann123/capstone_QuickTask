@@ -18,7 +18,11 @@
                 <p><b>Assigned To:</b> <%= task.fname %>, <%= task.lname %></p>
                 <p><b>Due Date:</b> <%= task.due_date %></p>
                 <p><b>Notes:</b> <%= task.notes %></p>
-
+                <% if (task.completed === true) { %>
+                    <p><b>Status:</b> Completed</p>
+                <% } else { %>
+                    <p><b>Status:</b> Incomplete</p>
+                <% } %>
                 <form action="/tasks/<%= task.id %>/notes" method="POST">
                     <!--<label for="taskNotes">Add Notes:</label>-->
                     <input type="text" id="taskNotes" name="notes" placeholder="Add Notes">

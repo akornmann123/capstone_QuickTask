@@ -218,7 +218,7 @@ app.get('/accounts', async (req, res) => {
 
         // Create acount details array
         const accountDetails = completedUsers.rows.map(user => {
-            return `<br>First Name: ${user.fname}<br>Last Name: ${user.lname}<br>Account Type: ${user.job}<br> Username: ${user.username}<br> Password (hashed): ${user.password}<br><br>`;
+            return `<br>Id: ${user.id}<br>First Name: ${user.fname}<br>Last Name: ${user.lname}<br>Account Type: ${user.job}<br> Username: ${user.username}<br> Password (hashed): ${user.password}<br><br>Is Logged In: ${user.isLoggedIn}<br><br>`;
         });
 
         // Output completed accounts
@@ -256,7 +256,7 @@ app.get('/completed', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const client = await pool.connect();
-        const sql = "SELECT tasks.id, tasks.title, tasks.description, tasks.due_date, tasks.notes, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
+        const sql = "SELECT tasks.id, tasks.completed, tasks.title, tasks.description, tasks.due_date, tasks.notes, userAccounts.fname, userAccounts.lname FROM tasks INNER JOIN userAccounts ON tasks.user_id = userAccounts.id ORDER BY tasks.id ASC;";
 
         const taskList = await client.query(sql);
         //console.log("Task List:", taskList.rows);
