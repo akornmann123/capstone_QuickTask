@@ -36,8 +36,8 @@
         <br>
         <label for="completed">Status:</label>
         <select id="completed" name="completed">
-            <option value="false" <%= task.completed == false ? 'selected' : '' %>>Incomplete</option>
-            <option value="true" <%= task.completed == true ? 'selected' : '' %>>Completed</option>
+            <option value=false <%= task.completed == false ? 'selected' : '' %>>Incomplete</option>
+            <option value=true <%= task.completed == true ? 'selected' : '' %>>Completed</option>
         </select>
         <br>
         <button type="submit">Update Task</button>
